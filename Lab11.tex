@@ -138,13 +138,54 @@ In order to collect the data for figure 2(g) I first needed to got to the resear
   \item Summarize the further data. Do the data suggest that
    dopamine in the brains of young zebra finches decreases when
    they sing further away?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## # A tibble: 1 x 6
+##     mean    sd median   IQR skewness exkurtosis
+##    <dbl> <dbl>  <dbl> <dbl>    <dbl>      <dbl>
+## 1 -0.203 0.130 -0.187 0.187    -1.04       1.19
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+\end{knitrout}
+As seen in the graph and the mean of the data, it is clearly less than 0 suggesting that the the dopamine of the young zebra finches decreases when they song further from their adult song.
+
    \item Summarize the closer data. Do the data suggest that
    dopamine in the brains of young zebra finches increases when
    they sing closer to their adult song?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## # A tibble: 1 x 6
+##    mean     sd median   IQR skewness exkurtosis
+##   <dbl>  <dbl>  <dbl> <dbl>    <dbl>      <dbl>
+## 1 0.156 0.0941  0.146 0.107    0.295     -0.859
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
+\end{knitrout}
+As seen in the graph and the mean of the data, it is clearly greater than 0 suggesting that the dopamine of the young zebra finches increases when they sing closer to their adult song.
   \item Summarize the paired differences. Do the data suggest
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
+  
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+\end{knitrout}
+As seen in the graph and mean of the data, the difference is not 0 suggesting that their is a difference between the dopamine in the brains of young finches when they sing further away compared to closer to their adult song.
   \item \textbf{Optional Challenge:} Can you reproduce Figure 2(g)?
   Note that the you can use \texttt{geom\_errorbar()} to plot
   the range created by adding the mean $\pm$ one standard deviation.

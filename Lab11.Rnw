@@ -77,13 +77,86 @@ In order to collect the data for figure 2(g) I first needed to got to the resear
   \item Summarize the further data. Do the data suggest that
    dopamine in the brains of young zebra finches decreases when
    they sing further away?
+<< echo=FALSE>>=
+library(e1071)
+finch.further= finch.tib |>
+  summarize(mean       = mean(finch.tib$further_vals),
+            sd         = sd(finch.tib$further_vals),
+            median     = median(finch.tib$further_vals),
+            IQR        = IQR(finch.tib$further_vals),
+            skewness   = skewness(finch.tib$further_vals),
+            exkurtosis = kurtosis(finch.tib$further_vals))
+print(finch.further)
+@
+
+<< echo=FALSE>>=
+ggplot(data=finch.tib) +                                         # Specify data to plot
+  geom_histogram(aes(x=further_vals, y = after_stat(density)), # Density histogram
+                 breaks=seq(-1,0.2, length.out=15),
+                 color="grey30", fill="lightgray")+             # Specify bins
+  geom_density(aes(x=further_vals), color="darkred")+             # Add density estimate
+  geom_hline(yintercept=0)+                                   # Add x-axis
+  theme_bw() +                                                # Remove gray background
+  xlab("Further Values") +                                  # x-axis label
+  ylab("Density")                                             # y-axis label
+
+@
+As seen in the graph and the mean of the data, it is clearly less than 0 suggesting that the the dopamine of the young zebra finches decreases when they song further from their adult song.
+
    \item Summarize the closer data. Do the data suggest that
    dopamine in the brains of young zebra finches increases when
    they sing closer to their adult song?
+<< echo=FALSE>>=
+finch.closer= finch.tib |>
+  summarize(mean       = mean(finch.tib$closer_vals),
+            sd         = sd(finch.tib$closer_vals),
+            median     = median(finch.tib$closer_vals),
+            IQR        = IQR(finch.tib$closer_vals),
+            skewness   = skewness(finch.tib$closer_vals),
+            exkurtosis = kurtosis(finch.tib$closer_vals))
+print(finch.closer)
+@
+
+<< echo=FALSE >>=
+
+ggplot(data=finch.tib) +                                         # Specify data to plot
+  geom_histogram(aes(x=closer_vals, y = after_stat(density)), # Density histogram
+                 breaks=seq(-0.1,0.4, length.out=10),
+                 color="grey30", fill="lightgray")+             # Specify bins
+  geom_density(aes(x=closer_vals), color="darkred")+             # Add density estimate
+  geom_hline(yintercept=0)+                                   # Add x-axis
+  theme_bw() +                                                # Remove gray background
+  xlab("Closer Values") +                                  # x-axis label
+  ylab("Density")                                             # y-axis label
+@
+As seen in the graph and the mean of the data, it is clearly greater than 0 suggesting that the dopamine of the young zebra finches increases when they sing closer to their adult song.
   \item Summarize the paired differences. Do the data suggest
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
+  
+<< echo=FALSE>>=
+finch.diff= finch.tib |>
+  summarize(mean       = mean(finch.tib$diff_vals),
+            sd         = sd(finch.tib$diff_vals),
+            median     = median(finch.tib$diff_vals),
+            IQR        = IQR(finch.tib$diff_vals),
+            skewness   = skewness(finch.tib$diff_vals),
+            exkurtosis = kurtosis(finch.tib$diff_vals))
+@
+
+<< echo=FALSE>>=
+ggplot(data=finch.tib) +                                         # Specify data to plot
+  geom_histogram(aes(x=diff_vals, y = after_stat(density)), # Density histogram
+                 breaks=seq(-0.1,1.1, length.out=15),
+                 color="grey30", fill="lightgray")+             # Specify bins
+  geom_density(aes(x=diff_vals), color="darkred")+             # Add density estimate
+  geom_hline(yintercept=0)+                                   # Add x-axis
+  theme_bw() +                                                # Remove gray background
+  xlab("Difference in Values") +                                  # x-axis label
+  ylab("Density")                                             # y-axis label
+@
+As seen in the graph and mean of the data, the difference is not 0 suggesting that their is a difference between the dopamine in the brains of young finches when they sing further away compared to closer to their adult song.
   \item \textbf{Optional Challenge:} Can you reproduce Figure 2(g)?
   Note that the you can use \texttt{geom\_errorbar()} to plot
   the range created by adding the mean $\pm$ one standard deviation.
