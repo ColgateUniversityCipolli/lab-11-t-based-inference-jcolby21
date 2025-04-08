@@ -41,6 +41,14 @@ conduct a power analysis. How many observations would the researchers
 need to detect a moderate-to-large effect ($d=0.65$) when using 
 $\alpha=0.05$ and default power (0.80) for a two-sided one sample 
 $t$ test.
+
+<< warning=FALSE, echo=FALSE>>=
+library(pwr)
+result <- pwr.t.test(d = 0.65, sig.level = 0.05, power = 0.80, type = "one.sample")
+print(result)
+@
+
+It would take 21 observations to detect moderate-to-large effect d=0.65
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % COLLECT DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
