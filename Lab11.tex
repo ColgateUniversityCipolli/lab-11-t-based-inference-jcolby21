@@ -200,8 +200,107 @@ like: ($t=23.99$, $p<0.0001$; $g=1.34$; 95\% CI: 4.43, 4.60).\\
 correction of their $p$-values. I'm waiting to hear back from them via email!
 \begin{enumerate}
   \item ``The close responses differed significantly from 0 ($p=1.63 \times 10^{-8}$).''
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hldef{(effectsize)}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= finch.tib}\hlopt{$}\hldef{closer_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |      95% CI
+## -----------------------
+## 1.61      | [1.10, Inf]
+## 
+## - One-sided CIs: upper bound fixed at [Inf].
+\end{verbatim}
+\begin{alltt}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=finch.tib}\hlopt{$}\hldef{closer_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  finch.tib$closer_vals
+## t = 8.3024, df = 24, p-value = 8.132e-09
+## alternative hypothesis: true mean is greater than 0
+## 95 percent confidence interval:
+##  0.1240301       Inf
+## sample estimates:
+## mean of x 
+## 0.1562231
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+The data I got was \( t = 8.3024, p = 8.132 \times 10^{-8}, g = 1.61, \) 95\% CI: \( 1.10, \infty \).
+
+
   \item ``The far responses differed significantly from 0 ($p=5.17 \times 10^{-8}$).''
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hldef{(effectsize)}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= finch.tib}\hlopt{$}\hldef{further_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |        95% CI
+## -------------------------
+## -1.51     | [-Inf, -1.02]
+## 
+## - One-sided CIs: lower bound fixed at [-Inf].
+\end{verbatim}
+\begin{alltt}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=finch.tib}\hlopt{$}\hldef{further_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  finch.tib$further_vals
+## t = -7.778, df = 24, p-value = 2.587e-08
+## alternative hypothesis: true mean is less than 0
+## 95 percent confidence interval:
+##        -Inf -0.1581322
+## sample estimates:
+##  mean of x 
+## -0.2027244
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+The data I got was \( t = -7.778, p = 2.587 \times 10^{-8}, g = -1.51, \) 95\% CI: \( -\infty, -1.02 \).
+  
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
+  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hldef{(effectsize)}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= finch.tib}\hlopt{$}\hldef{diff_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |       95% CI
+## ------------------------
+## 1.65      | [1.04, 2.24]
+\end{verbatim}
+\begin{alltt}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=finch.tib}\hlopt{$}\hldef{diff_vals,} \hlkwc{mu} \hldef{=} \hlnum{0}\hldef{,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  finch.tib$diff_vals
+## t = 8.5109, df = 24, p-value = 1.037e-08
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.2719028 0.4459921
+## sample estimates:
+## mean of x 
+## 0.3589475
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+The data I got was \( t = 8.5109, p = 1.037 \times 10^{-8}, g = 1.65, \) 95\% CI: \( 1.04, 2.24 \).  
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
@@ -210,8 +309,20 @@ correction of their $p$-values. I'm waiting to hear back from them via email!
 hypothesis testing plots for each part of the previous question.
 \begin{enumerate}
   \item Question 4, part(a).
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+\end{knitrout}
   \item Question 4, part(b).
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-14-1} 
+\end{knitrout}
   \item Question 4, part(c).
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} 
+\end{knitrout}
 \end{enumerate}
 \end{enumerate}
 

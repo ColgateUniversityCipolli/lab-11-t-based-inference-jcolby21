@@ -171,8 +171,31 @@ like: ($t=23.99$, $p<0.0001$; $g=1.34$; 95\% CI: 4.43, 4.60).\\
 correction of their $p$-values. I'm waiting to hear back from them via email!
 \begin{enumerate}
   \item ``The close responses differed significantly from 0 ($p=1.63 \times 10^{-8}$).''
+<< warning=FALSE >>=
+library(effectsize)
+hedges_g(x = finch.tib$closer_vals, mu = 0, alternative = "greater")
+t.test(x=finch.tib$closer_vals, mu = 0, alternative = "greater")
+@
+The data I got was \( t = 8.3024, p = 8.132 \times 10^{-8}, g = 1.61, \) 95\% CI: \( 1.10, \infty \).
+
+
   \item ``The far responses differed significantly from 0 ($p=5.17 \times 10^{-8}$).''
+
+<< warning=FALSE>>=
+library(effectsize)
+hedges_g(x = finch.tib$further_vals, mu = 0, alternative = "less")
+t.test(x=finch.tib$further_vals, mu = 0, alternative = "less")
+@
+The data I got was \( t = -7.778, p = 2.587 \times 10^{-8}, g = -1.51, \) 95\% CI: \( -\infty, -1.02 \).
+  
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
+  
+<<warning=FALSE >>=
+library(effectsize)
+hedges_g(x = finch.tib$diff_vals, mu = 0, alternative = "two.sided")
+t.test(x=finch.tib$diff_vals, mu = 0, alternative = "two.sided")
+@
+The data I got was \( t = 8.5109, p = 1.037 \times 10^{-8}, g = 1.65, \) 95\% CI: \( 1.04, 2.24 \).  
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
@@ -181,8 +204,121 @@ correction of their $p$-values. I'm waiting to hear back from them via email!
 hypothesis testing plots for each part of the previous question.
 \begin{enumerate}
   \item Question 4, part(a).
+<< echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=2>>=
+ggdat.t <- tibble(t=seq(-5,5,length.out=1000)) |>
+  mutate(pdf.null = dt(t, df=length(finch.tib$closer_vals)-1))
+
+# For plotting the observed point
+ggdat.obs <- tibble(t = 8.3024, y = 0)  # observed t-statistic from t-test
+
+# Resampling to approximate the sampling distribution
+R <- 1000
+resamples <- tibble(t = numeric(R))
+for(i in 1:R){
+  curr.sample <- sample(x=finch.tib$closer_vals, size=length(finch.tib$closer_vals), replace=T)
+  resamples$t[i] = (mean(curr.sample)-0)/(sd(curr.sample)/sqrt(length(finch.tib$closer_vals)))
+}
+
+# Critical value for one-sided test
+t.crit <- qt(0.975, df=length(finch.tib$closer_vals)-1)
+
+# Create Plot
+ggplot() +
+  # null distribution
+  geom_line(data=ggdat.t, aes(x=t, y=pdf.null)) +
+  geom_hline(yintercept=0) +
+  # rejection region
+  geom_ribbon(data=subset(ggdat.t, t >= t.crit), aes(x=t, ymin=0, ymax=pdf.null), fill="grey", alpha=0.5) +
+  # plot observation point
+  geom_point(data=ggdat.obs, aes(x=t, y=y), color="red") +
+  # Resampling Distribution
+  stat_density(data=resamples, aes(x=t), geom="line", color="grey") +
+  # clean up aesthetics
+  theme_bw() +
+  scale_x_continuous("t",
+                     breaks = round(c(-5, t.crit, 5),2)) +
+  ylab("Density") +
+  ggtitle("One-Sided T-Test for Closer Values",
+          subtitle="H0: mu = 0; Ha: mu > 0")
+@
   \item Question 4, part(b).
+<< echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=2>>=
+ggdat.t <- tibble(t=seq(-5,5,length.out=1000)) |>
+  mutate(pdf.null = dt(t, df=length(finch.tib$further_vals)-1))
+
+# For plotting the observed point
+ggdat.obs <- tibble(t = -7.778, y = 0)  # observed t-statistic from t-test
+
+# Resampling to approximate the sampling distribution
+R <- 1000
+resamples <- tibble(t = numeric(R))
+for(i in 1:R){
+  curr.sample <- sample(x=finch.tib$further_vals, size=length(finch.tib$further_vals), replace=T)
+  resamples$t[i] = (mean(curr.sample)-0)/(sd(curr.sample)/sqrt(length(finch.tib$further_vals)))
+}
+
+# Critical value for one-sided test
+t.crit <- qt(0.025, df=length(finch.tib$further_vals)-1)
+
+# Create Plot
+ggplot() +
+  # null distribution
+  geom_line(data=ggdat.t, aes(x=t, y=pdf.null)) +
+  geom_hline(yintercept=0) +
+  # rejection region
+  geom_ribbon(data=subset(ggdat.t, t <= t.crit), aes(x=t, ymin=0, ymax=pdf.null), fill="grey", alpha=0.5) +
+  # plot observation point
+  geom_point(data=ggdat.obs, aes(x=t, y=y), color="red") +
+  # Resampling Distribution
+  stat_density(data=resamples, aes(x=t), geom="line", color="grey") +
+  # clean up aesthetics
+  theme_bw() +
+  scale_x_continuous("t",
+                     breaks = round(c(-5, t.crit, 5),2)) +
+  ylab("Density") +
+  ggtitle("One-Sided T-Test for Further Values",
+          subtitle="H0: mu = 0; Ha: mu < 0")
+@  
   \item Question 4, part(c).
+<< echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=2>>=
+ggdat.t <- tibble(t=seq(-5,5,length.out=1000)) |>
+  mutate(pdf.null = dt(t, df=length(finch.tib$diff_vals)-1))
+
+# For plotting the observed point
+ggdat.obs <- tibble(t = 8.5109, y = 0)  # observed t-statistic from t-test
+
+# Resampling to approximate the sampling distribution
+R <- 1000
+resamples <- tibble(t = numeric(R))
+for(i in 1:R){
+  curr.sample <- sample(x=finch.tib$diff_vals, size=length(finch.tib$diff_vals), replace=T)
+  resamples$t[i] = (mean(curr.sample)-0)/(sd(curr.sample)/sqrt(length(finch.tib$diff_vals)))
+}
+
+# Critical values for two-sided test
+t.crit.left <- qt(0.025, df=length(finch.tib$diff_vals)-1)
+t.crit.right <- qt(0.975, df=length(finch.tib$diff_vals)-1)
+
+# Create Plot
+ggplot() +
+  # null distribution
+  geom_line(data=ggdat.t, aes(x=t, y=pdf.null)) +
+  geom_hline(yintercept=0) +
+  # rejection regions
+  geom_ribbon(data=subset(ggdat.t, t <= t.crit.left), aes(x=t, ymin=0, ymax=pdf.null), fill="grey", alpha=0.5) +
+  geom_ribbon(data=subset(ggdat.t, t >= t.crit.right), aes(x=t, ymin=0, ymax=pdf.null), fill="grey", alpha=0.5) +
+  # plot observation point
+  geom_point(data=ggdat.obs, aes(x=t, y=y), color="red") +
+  # Resampling Distribution
+  stat_density(data=resamples, aes(x=t), geom="line", color="grey") +
+  # clean up aesthetics
+  theme_bw() +
+  scale_x_continuous("t",
+                     breaks = round(c(-5, t.crit.left, t.crit.right, 5),2)) +
+  ylab("Density") +
+  ggtitle("Two-Sided T-Test for Diff Values",
+          subtitle="H0: mu = 0; Ha: mu != 0")
+@
 \end{enumerate}
 \end{enumerate}
 
