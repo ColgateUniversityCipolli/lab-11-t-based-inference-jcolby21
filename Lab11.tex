@@ -115,6 +115,21 @@ do to collect the data for Figure 2(g). Note that you only need the
 \texttt{closer\_vals} and \texttt{further\_vals}. Ensure to 
 \texttt{mutate()} the data to get a difference 
 (e.g., \texttt{closer\_vals - further\_vals}).
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hldef{(tidyverse)}
+\hlkwd{library}\hldef{(readxl)}
+\hldef{finch.dat} \hlkwb{<-} \hlkwd{read_excel}\hldef{(}\hlsng{"Lab11data.xlsx"}\hldef{)}
+
+\hldef{finch.tib} \hlkwb{=} \hlkwd{tibble}\hldef{(finch.dat) |>}
+  \hlkwd{mutate}\hldef{(}\hlkwc{diff_vals}\hldef{=closer_vals} \hlopt{-} \hldef{further_vals)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+In order to collect the data for figure 2(g) I first needed to got to the research paper \citep{Kasdin25} and download the data for figure 2. After, I needed to create a separate excel sheet taking only two of the tabs I wanted for figure 2(g) of further\_vals and closer\_vals. I then had to upload the excel file into R and then mutate the tibble I made to add a new column called diff\_vals which was the difference of the other rows of data.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUMMARIZE DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
